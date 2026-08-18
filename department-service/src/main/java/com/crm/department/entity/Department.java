@@ -1,0 +1,3 @@
+package com.crm.department.entity;
+import com.crm.common.entity.BaseEntity; import jakarta.persistence.*; import jakarta.validation.constraints.NotBlank; import lombok.*;
+@Entity @Table(name="departments") @Getter @Setter @NoArgsConstructor public class Department extends BaseEntity { @NotBlank @Column(nullable=false,length=100) private String name; @Column(nullable=false,length=30) private String code; @Column(nullable=false) private Long companyId; private Long branchId; private String description; private boolean active=true; }
