@@ -1,0 +1,3 @@
+package com.crm.employee.entity;
+import com.crm.common.entity.BaseEntity; import jakarta.persistence.*; import jakarta.validation.constraints.*; import lombok.*; import java.time.LocalDate;
+@Entity @Table(name="employees") @Getter @Setter @NoArgsConstructor public class Employee extends BaseEntity { @NotBlank @Column(nullable=false,length=80) private String firstName; @NotBlank @Column(nullable=false,length=80) private String lastName; @Email @Column(unique=true,length=150) private String email; @Column(length=30) private String phone; @Column(nullable=false,unique=true,length=30) private String employeeCode; private LocalDate joiningDate; private Long companyId; private Long branchId; private Long departmentId; private Long designationId; private boolean active=true; }
