@@ -1,0 +1,2 @@
+package com.crm.department.repository; import com.crm.department.entity.Department; import org.springframework.data.jpa.repository.JpaRepository; import java.util.List;
+public interface DepartmentRepository extends JpaRepository<Department,Long>{List<Department> findByCompanyId(Long companyId);List<Department> findByBranchId(Long branchId);boolean existsByCode(String code);}
