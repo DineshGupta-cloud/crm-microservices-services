@@ -9,7 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -22,14 +23,19 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        user.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+            role.getPermissions().forEach(permission ->
+                    authorities.add(new SimpleGrantedAuthority(permission.getName())));
+        });
+
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .disabled(!user.isEnabled())
                 .accountLocked(!user.isAccountNonLocked())
-                .authorities(user.getRoles().stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
-                        .collect(Collectors.toSet()))
+                .authorities(authorities)
                 .build();
     }
 }
