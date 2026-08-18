@@ -1,0 +1,2 @@
+package com.crm.designation.repository; import com.crm.designation.entity.Designation; import org.springframework.data.jpa.repository.JpaRepository; import java.util.List;
+public interface DesignationRepository extends JpaRepository<Designation,Long>{List<Designation> findByCompanyId(Long companyId);boolean existsByCode(String code);}
